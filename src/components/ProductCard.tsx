@@ -20,11 +20,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           height={300}
           className="product-image"
         />
-        {product.discount_percentage > 0 && (
-          <div className="discount-badge">
-            {product.discount_percentage}%
-          </div>
-        )}
         <div className="product-category">
           {product.category}
         </div>
@@ -35,13 +30,27 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <div className="product-pricing">
           {product.original_price > product.price && (
-            <span className="original-price">
-              R$ {product.original_price.toFixed(2)}
+            <>
+              <span className="original-price">
+                R$ {product.original_price.toFixed(2)}
+              </span>
+              <div className="price-row">
+                <span className="current-price">
+                  R$ {product.price.toFixed(2)}
+                </span>
+                {product.discount_percentage > 0 && (
+                  <span className="discount-tag">
+                    -{product.discount_percentage}%
+                  </span>
+                )}
+              </div>
+            </>
+          )}
+          {!(product.original_price > product.price) && (
+            <span className="current-price">
+              R$ {product.price.toFixed(2)}
             </span>
           )}
-          <span className="current-price">
-            R$ {product.price.toFixed(2)}
-          </span>
         </div>
 
         <button

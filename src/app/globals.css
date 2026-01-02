@@ -226,27 +226,6 @@ main {
   transform: scale(1.08);
 }
 
-.discount-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: linear-gradient(135deg, var(--success-green), #00d2a0);
-  color: white;
-  padding: 0.4rem 0.75rem;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 0.85rem;
-  box-shadow: 0 2px 12px rgba(0, 184, 148, 0.4);
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-}
-
-.discount-badge::before {
-  content: '↓';
-  font-size: 1rem;
-}
-
 .product-category {
   position: absolute;
   top: 10px;
@@ -296,11 +275,29 @@ main {
   font-weight: 400;
 }
 
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .current-price {
   font-size: 1.65rem;
   font-weight: 800;
   color: var(--primary-orange);
   letter-spacing: -0.5px;
+}
+
+.discount-tag {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--success-green), #00d2a0);
+  color: white;
+  padding: 0.3rem 0.65rem;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 184, 148, 0.3);
 }
 
 .offer-button {
@@ -395,6 +392,11 @@ main {
 
   .current-price {
     font-size: 1.4rem;
+  }
+
+  .discount-tag {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.55rem;
   }
 
   .category-button {
