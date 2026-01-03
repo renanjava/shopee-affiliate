@@ -81,7 +81,7 @@ export default function HomePage() {
         <CategoryFilter
           categories={categories}
           selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
+          onSelectCategory={handleSelectCategory}
           sortBy={sortBy}
           onSortChange={setSortBy}
         />

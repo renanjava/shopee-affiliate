@@ -16,21 +16,21 @@ export default function CategoryFilter({
   onSortChange,
 }: CategoryFilterProps) {
   return (
-    <div>
-      <div className="category-filter">
+    <div className="mb-4">
+      <div className="category-filter flex flex-wrap gap-3 mb-3">
         <button
-          className={`category-button ${
-            selectedCategory === "" ? "active" : ""
+          className={`category-button px-4 py-2 rounded-full text-sm font-medium ${
+            selectedCategory === '' ? 'bg-orange-500 text-white shadow' : 'bg-gray-100 text-gray-900'
           }`}
-          onClick={() => onSelectCategory("")}
+          onClick={() => onSelectCategory('')}
         >
           Todas
         </button>
         {categories.map((category) => (
           <button
             key={category}
-            className={`category-button ${
-              selectedCategory === category ? "active" : ""
+            className={`category-button px-4 py-2 rounded-full text-sm font-medium ${
+              selectedCategory === category ? 'bg-orange-500 text-white shadow' : 'bg-gray-100 text-gray-900'
             }`}
             onClick={() => onSelectCategory(category)}
           >
@@ -39,16 +39,20 @@ export default function CategoryFilter({
         ))}
       </div>
 
-      <div className="sort-filter">
+      <div className="sort-filter flex gap-3">
         <button
-          className={`sort-button ${sortBy === "commission" ? "active" : ""}`}
-          onClick={() => onSortChange("commission")}
+          className={`sort-button px-3 py-2 rounded-full text-sm font-medium ${
+            sortBy === 'commission' ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-700'
+          }`}
+          onClick={() => onSortChange('commission')}
         >
           Maior Comissão
         </button>
         <button
-          className={`sort-button ${sortBy === "discount" ? "active" : ""}`}
-          onClick={() => onSortChange("discount")}
+          className={`sort-button px-3 py-2 rounded-full text-sm font-medium ${
+            sortBy === 'discount' ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-700'
+          }`}
+          onClick={() => onSortChange('discount')}
         >
           Maior Desconto
         </button>
