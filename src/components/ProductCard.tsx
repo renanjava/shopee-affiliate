@@ -46,121 +46,117 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article
       onClick={handleClick}
-      className="product-card group bg-white rounded-md overflow-hidden shadow-sm transition-transform hover:-translate-y-1 cursor-pointer flex flex-col md:flex-col"
+      className="product-card"
       role="button"
       aria-label={`Abrir oferta de ${product.title}`}
     >
-      <div className="product-image-wrapper relative w-full aspect-square bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+      <div className="product-image-wrapper">
         <Image
           src={product.image_url}
           alt={product.title}
-          width={300}
-          height={300}
-          className="object-cover w-full h-full"
+          width={400}
+          height={400}
+          className="product-image"
         />
-        {product.sales && (
-          <div className="product-sales-badge absolute left-2 top-2 bg-white/90 text-xs text-orange-500 font-semibold rounded px-2 py-0.5">
-            {product.sales} vendidos
-          </div>
-        )}
       </div>
 
-      <div className="product-info p-4 flex flex-col gap-3 flex-1">
-        <h3 className="product-title text-sm font-semibold text-gray-900 line-clamp-2">
-          {product.title}
-        </h3>
+      <div className="product-info">
+        <div>
+          <h3 className="product-title">{product.title}</h3>
 
-        <div className="product-pricing">
-          {product.original_price > product.price ? (
-            <>
-              <div className="flex items-baseline gap-2">
-                <span className="original-price text-xs text-gray-400 line-through">
-                  R$ {product.original_price.toFixed(2)}
-                </span>
-                <span className="current-price text-xl font-extrabold text-orange-500">
-                  R$ {product.price.toFixed(2)}
-                </span>
-                {product.discount_percentage > 0 && (
-                  <span className="discount-tag inline-flex items-center bg-green-500 text-white rounded-full text-xs font-bold px-2 py-0.5">
-                    -{product.discount_percentage}%
-                  </span>
-                )}
-              </div>
-            </>
-          ) : (
-            <span className="current-price text-xl font-extrabold text-orange-500">
-              R$ {product.price.toFixed(2)}
-            </span>
+          {product.sales && (
+            <div className="product-sales-info">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>{product.sales} vendidos</span>
+            </div>
           )}
         </div>
 
-        <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-500">
-              Taxa de comissão{" "}
-              {product.commission ? `${product.commission}%` : "—"}
+        <div className="product-pricing">
+          {product.original_price > product.price && (
+            <span className="original-price">
+              R$ {product.original_price.toFixed(2)}
             </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                handleClick();
-              }}
-              className="py-2 px-3 bg-orange-500 hover:bg-orange-600"
-              aria-label={`Ver oferta de ${product.title}`}
-            >
-              Ver Oferta
-            </Button>
-
-            <IconButton
-              onClick={(e) => {
-                e.stopPropagation();
-                handleShare(e);
-              }}
-              aria-label={`Compartilhar ${product.title}`}
-            >
-              {showCopied ? (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-              ) : (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="18" cy="5" r="3"></circle>
-                  <circle cx="6" cy="12" r="3"></circle>
-                  <circle cx="18" cy="19" r="3"></circle>
-                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                </svg>
-              )}
-            </IconButton>
+          )}
+          <div className="price-row">
+            <span className="current-price">R$ {product.price.toFixed(2)}</span>
+            {product.discount_percentage > 0 && (
+              <span className="discount-tag">
+                -{product.discount_percentage}%
+              </span>
+            )}
           </div>
         </div>
 
-        {showCopied && (
-          <span className="copied-message text-sm text-green-600 mt-2">
-            Link copiado! ✓
-          </span>
-        )}
+        <div className="product-actions">
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick();
+            }}
+            className="offer-button"
+            aria-label={`Ver oferta de ${product.title}`}
+          >
+            Ver Oferta
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShare(e);
+            }}
+            className="share-button"
+            aria-label={`Compartilhar ${product.title}`}
+          >
+            {showCopied ? (
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            ) : (
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {showCopied && <span className="copied-message">Link copiado! ✓</span>}
       </div>
     </article>
   );
