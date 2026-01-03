@@ -1,17 +1,14 @@
 import { NextResponse } from 'next/server';
-import { Product } from '@/types/product';
-import productsData from '@/data/products.json';
-
-export const revalidate = 300;
-
-function getCategories(products: Product[]): string[] {
-  const categories = new Set(products.map((p) => p.category));
-  return Array.from(categories).sort();
-}
+import { fetchProducts, getCategories } from '@/lib/fetchProducts';
 
 export async function GET() {
   try {
-    const products = productsData as Product[];
+    const products = await fetchProducts();
+    
+    if (products.length === 0) {
+      console.warn('Nenhum produto ativo encontrado');
+    }
+    
     const categories = getCategories(products);
 
     return NextResponse.json({

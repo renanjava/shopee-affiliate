@@ -1,5 +1,17 @@
 import Papa from 'papaparse';
-import { Product, ProductRaw } from '@/types/product';
+import { Product } from '@/types/product';
+
+interface ProductRaw {
+  id: string;
+  title: string;
+  price: string;
+  original_price: string;
+  discount_percentage: string;
+  image_url: string;
+  affiliate_url: string;
+  category: string;
+  active: string;
+}
 
 function parseProduct(raw: ProductRaw): Product {
   return {
@@ -11,20 +23,22 @@ function parseProduct(raw: ProductRaw): Product {
     image_url: raw.image_url,
     affiliate_url: raw.affiliate_url,
     category: raw.category,
-    active: raw.active.toLowerCase() === 'true',
+    active: raw.active?.toLowerCase() === 'true',
   };
 }
 
 export async function fetchProducts(): Promise<Product[]> {
-  const sheetsUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_URL;
-
-  if (!sheetsUrl) {
-    console.error('NEXT_PUBLIC_GOOGLE_SHEETS_URL não configurada');
-    return [];
-  }
+  const spreadsheetId = '1Jm9nkz9SO4jeB5YX5JheSZ-RBFS6eWdtalHR1yHI6Pg';
+  
+  const csvUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=0`;
 
   try {
-    const response = await fetch(sheetsUrl, {
+    const response = await fetch(csvUrl, {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+      },
       cache: 'no-store',
     });
 
@@ -37,6 +51,7 @@ export async function fetchProducts(): Promise<Product[]> {
     const parsed = Papa.parse<ProductRaw>(csvText, {
       header: true,
       skipEmptyLines: true,
+      transformHeader: (header) => header.trim(),
     });
 
     if (parsed.errors.length > 0) {
@@ -45,7 +60,7 @@ export async function fetchProducts(): Promise<Product[]> {
 
     const products = parsed.data
       .map(parseProduct)
-      .filter((product) => product.active);
+      .filter((product) => product.active && product.id);
 
     return products;
   } catch (error) {
