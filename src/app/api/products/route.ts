@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { fetchProducts, getCategories } from '@/lib/fetchProducts';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const products = await fetchProducts();
