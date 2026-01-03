@@ -8,6 +8,8 @@ export interface Product {
   affiliate_url: string;
   category: string;
   active: boolean;
+  sales?: string;
+  commission?: number;
 }
 
 export interface ProductRaw {
@@ -20,4 +22,6 @@ export interface ProductRaw {
   affiliate_url: string;
   category: string;
   active: string;
+  sales?: string;
+  commission?: string;
 }

@@ -58,7 +58,6 @@ export default function HomePage() {
       </section>
 
       <section className="products-section">
-        
         {filteredProducts.length === 0 ? (
           <p className="no-products">
             Nenhum produto encontrado nesta categoria.

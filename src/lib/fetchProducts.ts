@@ -1,17 +1,5 @@
 import Papa from 'papaparse';
-import { Product } from '@/types/product';
-
-interface ProductRaw {
-  id: string;
-  title: string;
-  price: string;
-  original_price: string;
-  discount_percentage: string;
-  image_url: string;
-  affiliate_url: string;
-  category: string;
-  active: string;
-}
+import { Product, ProductRaw } from '@/types/product';
 
 function parseProduct(raw: ProductRaw): Product {
   return {
@@ -24,6 +12,8 @@ function parseProduct(raw: ProductRaw): Product {
     affiliate_url: raw.affiliate_url,
     category: raw.category,
     active: raw.active?.toLowerCase() === 'true',
+    sales: raw.sales || undefined,
+    commission: raw.commission ? parseFloat(raw.commission) : undefined,
   };
 }
 
@@ -60,7 +50,12 @@ export async function fetchProducts(): Promise<Product[]> {
 
     const products = parsed.data
       .map(parseProduct)
-      .filter((product) => product.active && product.id);
+      .filter((product) => product.active && product.id)
+      .sort((a, b) => {
+        const commissionA = a.commission || 0;
+        const commissionB = b.commission || 0;
+        return commissionB - commissionA;
+      });
 
     return products;
   } catch (error) {
