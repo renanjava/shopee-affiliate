@@ -1,6 +1,6 @@
-import { Product } from '@/types/product';
-import Image from 'next/image';
-import { useState } from 'react';
+import { Product } from "@/types/product";
+import Image from "next/image";
+import { useState } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -10,23 +10,25 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [showCopied, setShowCopied] = useState(false);
 
   const handleClick = () => {
-    window.open(product.affiliate_url, '_blank', 'noopener,noreferrer');
+    window.open(product.affiliate_url, "_blank", "noopener,noreferrer");
   };
 
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     const shareData = {
       title: product.title,
-      text: `Confira esta oferta: ${product.title} - R$ ${product.price.toFixed(2)}`,
-      url: product.affiliate_url
+      text: `Confira esta oferta: ${product.title} - R$ ${product.price.toFixed(
+        2
+      )}`,
+      url: product.affiliate_url,
     };
 
     if (navigator.share) {
       try {
         await navigator.share(shareData);
       } catch (err) {
-        console.log('Compartilhamento cancelado');
+        console.log("Compartilhamento cancelado");
       }
     } else {
       try {
@@ -34,13 +36,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         setShowCopied(true);
         setTimeout(() => setShowCopied(false), 2000);
       } catch (err) {
-        console.error('Erro ao copiar link:', err);
+        console.error("Erro ao copiar link:", err);
       }
     }
   };
 
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={handleClick}>
       <div className="product-image-wrapper">
         <Image
           src={product.image_url}
@@ -50,9 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           className="product-image"
         />
         <div className="product-category">
-            {product.sales && (
-              <span>{product.sales} vendidos</span>
-            )}
+          {product.sales && <span>{product.sales} vendidos</span>}
         </div>
       </div>
 
@@ -69,43 +69,47 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <span className="current-price">
                   R$ {product.price.toFixed(2)}
                 </span>
-                 {product.discount_percentage > 0 && (
-                <span className="discount-tag">
+                {product.discount_percentage > 0 && (
+                  <span className="discount-tag">
                     -{product.discount_percentage}%
-                </span>
-            )}
+                  </span>
+                )}
               </div>
             </>
           )}
           {!(product.original_price > product.price) && (
-            <span className="current-price">
-              R$ {product.price.toFixed(2)}
-            </span>
+            <span className="current-price">R$ {product.price.toFixed(2)}</span>
           )}
         </div>
 
         <div className="product-actions">
           <button
-            onClick={handleClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick();
+            }}
             className="offer-button"
             aria-label={`Ver oferta de ${product.title}`}
           >
             Ver Oferta
           </button>
-          
+
           <button
-            onClick={handleShare}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleShare(e);
+            }}
             className="share-button"
             aria-label={`Compartilhar ${product.title}`}
             title="Compartilhar oferta"
           >
             {showCopied ? (
-              <svg 
-                width="18" 
-                height="18" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -113,12 +117,12 @@ export default function ProductCard({ product }: ProductCardProps) {
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             ) : (
-              <svg 
-                width="18" 
-                height="18" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -132,10 +136,8 @@ export default function ProductCard({ product }: ProductCardProps) {
             )}
           </button>
         </div>
-        
-        {showCopied && (
-          <span className="copied-message">Link copiado! ✓</span>
-        )}
+
+        {showCopied && <span className="copied-message">Link copiado! ✓</span>}
       </div>
     </div>
   );
