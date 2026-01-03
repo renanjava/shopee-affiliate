@@ -4,8 +4,8 @@ interface CategoryFilterProps {
   categories: string[];
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
-  sortBy: "commission" | "discount";
-  onSortChange: (sortBy: "commission" | "discount") => void;
+  sortBy: "discount";
+  onSortChange: (sortBy: "discount") => void;
 }
 
 export default function CategoryFilter({
@@ -40,14 +40,6 @@ export default function CategoryFilter({
       </div>
 
       <div className="sort-filter flex gap-3">
-        <button
-          className={`sort-button px-3 py-2 rounded-full text-sm font-medium ${
-            sortBy === 'commission' ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-700'
-          }`}
-          onClick={() => onSortChange('commission')}
-        >
-          Maior Comissão
-        </button>
         <button
           className={`sort-button px-3 py-2 rounded-full text-sm font-medium ${
             sortBy === 'discount' ? 'bg-orange-500 text-white' : 'bg-white border border-gray-200 text-gray-700'
