@@ -9,7 +9,7 @@ interface ProductCardProps {
 
 export function ProductCardSkeleton() {
   return (
-    <div className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm border border-shopee-border flex flex-row h-28 md:grid md:grid-cols-1 md:h-[340px]">
+    <div className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm border border-shopee-border flex flex-row h-auto min-h-[120px] md:grid md:grid-cols-1 md:h-[340px]">
       <div className="min-w-[100px] w-[100px] md:w-full md:h-[180px]">
         <Skeleton className="w-full h-full rounded-none" />
       </div>
@@ -73,11 +73,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article
       onClick={handleClick}
-      className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm transition-all duration-300 hover:shadow-shopee-lg hover:-translate-y-0.5 hover:border-transparent border border-shopee-border flex flex-row h-28 md:grid md:grid-cols-1 md:h-[340px] cursor-pointer group"
+      className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm transition-all duration-300 hover:shadow-shopee-lg hover:-translate-y-0.5 hover:border-transparent border border-shopee-border flex flex-row h-auto min-h-[120px] md:grid md:grid-cols-1 md:h-[340px] cursor-pointer group"
       role="button"
       aria-label={`Abrir oferta de ${product.title}`}
     >
-      <div className="relative min-w-[100px] w-[100px] md:w-full md:h-[180px] bg-white overflow-hidden flex items-center justify-center p-1">
+      <div className="relative min-w-[100px] w-[100px] md:w-full md:h-[180px] bg-white overflow-hidden flex items-center justify-center p-1 self-stretch border-r md:border-r-0 md:border-b border-shopee-border/50">
         {isImageLoading && (
           <Skeleton className="absolute inset-0 w-full h-full rounded-none z-10" />
         )}
@@ -96,11 +96,11 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       <div className="p-2.5 flex flex-col justify-between flex-1 min-w-0">
         <div className="flex flex-col gap-1">
-          <h3 className="text-[0.85rem] font-medium text-shopee-text-primary leading-tight line-clamp-2">
+          <h3 className="text-[0.85rem] font-medium text-shopee-text-primary leading-tight line-clamp-2 md:line-clamp-2">
             {product.title}
           </h3>
 
-          <div className="flex flex-col gap-0.5 md:gap-1">
+          <div className="flex flex-col gap-0.5 md:gap-1 mt-1">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-[1.1rem] md:text-xl font-bold text-shopee-orange tracking-tight">
                 R$ {product.price.toFixed(2)}
@@ -108,6 +108,11 @@ export default function ProductCard({ product }: ProductCardProps) {
               {product.original_price > product.price && (
                 <span className="text-[0.7rem] text-shopee-text-light line-through font-normal tabular-nums">
                   R$ {product.original_price.toFixed(2)}
+                </span>
+              )}
+              {product.discount_percentage > 0 && (
+                <span className="inline-flex items-center bg-shopee-orange/10 text-shopee-orange px-1.5 py-0.5 rounded text-[0.65rem] font-bold border border-shopee-orange/20">
+                  -{product.discount_percentage}%
                 </span>
               )}
             </div>
@@ -118,23 +123,18 @@ export default function ProductCard({ product }: ProductCardProps) {
                   {product.sales} vendidos
                 </span>
               )}
-              {product.discount_percentage > 0 && (
-                <span className="inline-flex items-center bg-shopee-orange/10 text-shopee-orange px-1.5 py-0.5 rounded text-[0.65rem] font-bold border border-shopee-orange/20">
-                  -{product.discount_percentage}%
-                </span>
-              )}
             </div>
           </div>
         </div>
 
-        <div className="flex gap-2 items-center mt-1.5">
+        <div className="flex gap-2 items-center mt-2.5">
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleClick();
             }}
             disabled={isRedirecting}
-            className="flex-1 py-1.5 px-3 bg-shopee-orange text-white border-none rounded-md text-[0.8rem] font-semibold cursor-pointer transition-all duration-300 shadow-sm hover:bg-shopee-hover active:scale-95 flex items-center justify-center gap-1 group/btn disabled:opacity-70 disabled:cursor-not-allowed"
+            className="flex-1 py-1.5 px-3 bg-shopee-orange text-white border-none rounded-md text-[0.8rem] font-semibold cursor-pointer transition-all duration-300 shadow-sm hover:bg-shopee-hover active:scale-95 flex items-center justify-center gap-1 group/btn disabled:opacity-70 disabled:cursor-not-allowed h-8"
             aria-label={`Ver oferta de ${product.title}`}
           >
             {isRedirecting ? (
@@ -152,7 +152,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               e.stopPropagation();
               handleShare(e);
             }}
-            className="flex items-center justify-center w-8 h-8 min-w-[32px] bg-transparent border border-shopee-border rounded-md cursor-pointer transition-all duration-200 text-shopee-text-secondary hover:bg-shopee-bg hover:text-shopee-orange active:scale-95"
+            className="flex items-center justify-center w-8 h-8 min-w-[32px] bg-transparent border border-shopee-border rounded-md cursor-pointer transition-all duration-200 text-shopee-text-secondary hover:bg-shopee-bg hover:text-shopee-orange active:scale-95 h-8"
             aria-label={`Compartilhar ${product.title}`}
           >
             {showCopied ? (
