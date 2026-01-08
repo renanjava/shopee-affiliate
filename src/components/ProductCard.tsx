@@ -73,11 +73,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article
       onClick={handleClick}
-      className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm transition-all duration-300 hover:shadow-shopee-lg hover:-translate-y-0.5 hover:border-transparent border border-shopee-border flex flex-row h-auto min-h-[120px] md:grid md:grid-cols-1 md:h-[340px] cursor-pointer group"
+      className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm transition-all duration-300 hover:shadow-shopee-lg hover:-translate-y-0.5 hover:border-transparent border border-shopee-border flex flex-row h-auto min-h-[130px] md:grid md:grid-cols-1 md:h-[340px] cursor-pointer group"
       role="button"
       aria-label={`Abrir oferta de ${product.title}`}
     >
-      <div className="relative min-w-[100px] w-[100px] md:w-full md:h-[180px] bg-white overflow-hidden flex items-center justify-center p-1 self-stretch border-r md:border-r-0 md:border-b border-shopee-border/50">
+      <div className="relative min-w-[130px] w-[130px] md:w-full md:h-[180px] bg-white overflow-hidden flex items-center justify-center p-1 self-stretch border-r md:border-r-0 md:border-b border-shopee-border/50">
         {isImageLoading && (
           <Skeleton className="absolute inset-0 w-full h-full rounded-none z-10" />
         )}
