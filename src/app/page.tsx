@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ProductCard from "@/components/ProductCard";
+import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import { Product } from "@/types/product";
 
@@ -62,8 +62,24 @@ export default function HomePage() {
   if (loading) {
     return (
       <div className="max-w-[1280px] mx-auto px-6">
-        <div className="text-center py-16 text-shopee-text-secondary text-lg flex flex-col items-center gap-4">
-          Carregando ofertas...
+        <section className="mt-8 mb-8">
+          <div className="mb-6">
+            <h2 className="text-3xl font-bold text-shopee-text-primary mb-1">
+              Ofertas em destaque
+            </h2>
+            <div className="h-5 w-48 bg-muted/50 animate-pulse rounded" />
+          </div>
+          <div className="flex flex-wrap gap-3 mb-6">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="h-10 w-24 bg-muted/50 animate-pulse rounded-full" />
+            ))}
+          </div>
+        </section>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
         </div>
       </div>
     );
