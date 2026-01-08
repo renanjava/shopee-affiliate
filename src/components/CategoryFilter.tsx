@@ -20,7 +20,6 @@ export default function CategoryFilter({
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -41,7 +40,6 @@ export default function CategoryFilter({
   return (
     <div className="sticky top-0 z-30 bg-white shadow-sm border-b border-shopee-border -mx-4 md:-mx-6 px-4 md:px-6 py-2 mb-4">
       <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-3">
-        {/* Category Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsCategoryOpen(!isCategoryOpen)}
@@ -96,7 +94,6 @@ export default function CategoryFilter({
           )}
         </div>
 
-        {/* Sort Tabs (Simplified) */}
         <div className="flex bg-gray-100 p-1 rounded-md">
           <button
             onClick={() => onSortChange("commission")}

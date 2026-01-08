@@ -57,7 +57,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       try {
         await navigator.share(shareData);
       } catch (err) {
-        // user cancelled
+        console.error("Erro ao compartilhar:", err);
       }
     } else {
       try {

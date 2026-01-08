@@ -30,12 +30,10 @@ export default function HomePage() {
     loadProducts();
   }, []);
 
-  // Toggle selection to avoid accidental multiple sets
   const handleSelectCategory = (category: string) => {
     setSelectedCategory((prev) => (prev === category ? "" : category));
   };
 
-  // Debug logs to trace unexpected mutations/duplicates
   useEffect(() => {
     console.debug(
       "products count:",
