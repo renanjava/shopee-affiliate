@@ -61,22 +61,22 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="max-w-[1280px] mx-auto px-6">
-        <section className="mt-8 mb-8">
-          <div className="mb-6">
-            <h2 className="text-3xl font-bold text-shopee-text-primary mb-1">
+      <div className="max-w-[1280px] mx-auto px-4 md:px-6">
+        <section className="mt-4 mb-4">
+          <div className="mb-4">
+            <h2 className="text-xl md:text-2xl font-bold text-shopee-text-primary mb-1">
               Ofertas em destaque
             </h2>
-            <div className="h-5 w-48 bg-muted/50 animate-pulse rounded" />
+            <div className="h-4 w-32 bg-muted/50 animate-pulse rounded" />
           </div>
-          <div className="flex flex-wrap gap-3 mb-6">
+          <div className="flex flex-wrap gap-2 mb-4">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-10 w-24 bg-muted/50 animate-pulse rounded-full" />
+              <div key={i} className="h-8 w-20 bg-muted/50 animate-pulse rounded-full" />
             ))}
           </div>
         </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 mb-8">
           {Array.from({ length: 12 }).map((_, i) => (
             <ProductCardSkeleton key={i} />
           ))}
@@ -86,16 +86,15 @@ export default function HomePage() {
   }
 
   return (
-    <div className="max-w-[1280px] mx-auto px-6">
-      <section className="mt-8 mb-8">
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold text-shopee-text-primary mb-1">
+    <div className="max-w-[1280px] mx-auto px-4 md:px-6">
+      <section className="mt-4 mb-4">
+        <div className="mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-shopee-text-primary mb-1">
             Ofertas em destaque
           </h2>
-          <p className="text-[0.95rem] text-shopee-text-secondary font-normal">
+          <p className="text-xs md:text-sm text-shopee-text-secondary font-normal">
             {sortedAndFilteredProducts.length} produto
             {sortedAndFilteredProducts.length !== 1 ? "s" : ""} com desconto
-            especial
           </p>
         </div>
         <CategoryFilter
@@ -109,11 +108,11 @@ export default function HomePage() {
 
       <section>
         {sortedAndFilteredProducts.length === 0 ? (
-          <p className="text-center py-16 text-shopee-text-secondary text-lg">
+          <p className="text-center py-12 text-shopee-text-secondary text-base">
             Nenhum produto encontrado nesta categoria.
           </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 mb-8">
             {sortedAndFilteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

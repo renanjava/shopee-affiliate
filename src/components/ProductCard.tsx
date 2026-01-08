@@ -9,23 +9,22 @@ interface ProductCardProps {
 
 export function ProductCardSkeleton() {
   return (
-    <div className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm border border-shopee-border flex flex-row h-auto md:grid md:grid-cols-1 md:h-[420px]">
-      <div className="min-w-[120px] w-[120px] md:w-full md:h-[200px]">
+    <div className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm border border-shopee-border flex flex-row h-28 md:grid md:grid-cols-1 md:h-[340px]">
+      <div className="min-w-[100px] w-[100px] md:w-full md:h-[180px]">
         <Skeleton className="w-full h-full rounded-none" />
       </div>
-      <div className="p-4 flex flex-col gap-3 justify-between flex-1">
-        <div className="flex flex-col gap-2">
-          <Skeleton className="h-5 w-full" />
-          <Skeleton className="h-5 w-2/3" />
-          <Skeleton className="h-4 w-1/3 mt-2" />
-        </div>
+      <div className="p-2.5 flex flex-col gap-1.5 justify-between flex-1">
         <div className="flex flex-col gap-1">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-2/3" />
+        </div>
+        <div className="hidden md:flex flex-col gap-1">
           <Skeleton className="h-3 w-1/4" />
-          <Skeleton className="h-8 w-1/2" />
+          <Skeleton className="h-6 w-1/2" />
         </div>
         <div className="flex gap-2 items-stretch mt-auto">
-          <Skeleton className="flex-1 h-10" />
-          <Skeleton className="w-12 h-10" />
+          <Skeleton className="flex-1 h-8" />
+          <Skeleton className="w-8 h-8" />
         </div>
       </div>
     </div>
@@ -40,7 +39,6 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleClick = () => {
     setIsRedirecting(true);
     window.open(product.affiliate_url, "_blank", "noopener,noreferrer");
-    // Reset after a short delay since we can't really know when the new tab is ready
     setTimeout(() => setIsRedirecting(false), 2000);
   };
 
@@ -75,11 +73,11 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <article
       onClick={handleClick}
-      className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm transition-all duration-300 hover:shadow-shopee-lg hover:-translate-y-1 hover:border-transparent border border-shopee-border flex flex-row h-auto md:grid md:grid-cols-1 md:h-[420px] cursor-pointer group"
+      className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm transition-all duration-300 hover:shadow-shopee-lg hover:-translate-y-0.5 hover:border-transparent border border-shopee-border flex flex-row h-28 md:grid md:grid-cols-1 md:h-[340px] cursor-pointer group"
       role="button"
       aria-label={`Abrir oferta de ${product.title}`}
     >
-      <div className="relative min-w-[120px] w-[120px] md:w-full md:h-[200px] bg-[#f0f0f0] overflow-hidden">
+      <div className="relative min-w-[100px] w-[100px] md:w-full md:h-[180px] bg-white overflow-hidden flex items-center justify-center p-1">
         {isImageLoading && (
           <Skeleton className="absolute inset-0 w-full h-full rounded-none z-10" />
         )}
@@ -88,7 +86,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           alt={product.title}
           width={400}
           height={400}
-          className={`w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105 ${
+          className={`w-full h-full object-contain transition-all duration-500 ease-in-out group-hover:scale-105 ${
             isImageLoading ? "opacity-0" : "opacity-100"
           }`}
           onLoad={() => setIsImageLoading(false)}
@@ -96,76 +94,56 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
       </div>
 
-      <div className="p-4 flex flex-col gap-3 justify-between flex-1">
-        <div className="flex flex-col gap-2">
-          <h3 className="text-[0.95rem] font-semibold text-shopee-text-primary leading-snug line-clamp-2 md:line-clamp-3">
+      <div className="p-2.5 flex flex-col justify-between flex-1 min-w-0">
+        <div className="flex flex-col gap-1">
+          <h3 className="text-[0.85rem] font-medium text-shopee-text-primary leading-tight line-clamp-2">
             {product.title}
           </h3>
 
-          {product.sales && (
-            <div className="flex items-center gap-1.5 text-xs text-shopee-text-secondary font-medium">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-shopee-text-light"
-              >
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-              </svg>
-              <span>{product.sales} vendidos</span>
-            </div>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-1">
-          {product.original_price > product.price && (
-            <span className="text-xs text-shopee-text-light line-through font-normal">
-              R$ {product.original_price.toFixed(2)}
-            </span>
-          )}
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-[1.3rem] md:text-2xl font-extrabold text-shopee-orange tracking-tight">
-              R$ {product.price.toFixed(2)}
-            </span>
-            {product.discount_percentage > 0 && (
-              <span className="inline-flex items-center bg-gradient-to-br from-shopee-success to-[#00d2a0] text-white px-2.5 py-0.5 rounded-full text-xs font-bold shadow-md">
-                -{product.discount_percentage}%
+          <div className="flex flex-col gap-0.5 md:gap-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-[1.1rem] md:text-xl font-bold text-shopee-orange tracking-tight">
+                R$ {product.price.toFixed(2)}
               </span>
-            )}
+              {product.original_price > product.price && (
+                <span className="text-[0.7rem] text-shopee-text-light line-through font-normal tabular-nums">
+                  R$ {product.original_price.toFixed(2)}
+                </span>
+              )}
+            </div>
+            
+            <div className="flex items-center gap-1.5 row-start-1">
+              {product.sales && (
+                <span className="text-[0.7rem] text-shopee-text-secondary whitespace-nowrap">
+                  {product.sales} vendidos
+                </span>
+              )}
+              {product.discount_percentage > 0 && (
+                <span className="inline-flex items-center bg-shopee-orange/10 text-shopee-orange px-1.5 py-0.5 rounded text-[0.65rem] font-bold border border-shopee-orange/20">
+                  -{product.discount_percentage}%
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="flex gap-2 items-stretch mt-auto">
+        <div className="flex gap-2 items-center mt-1.5">
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleClick();
             }}
             disabled={isRedirecting}
-            className="flex-1 py-2.5 px-4 bg-gradient-to-br from-shopee-orange to-shopee-secondary text-white border-none rounded-shopee-sm text-[0.9rem] font-semibold cursor-pointer transition-all duration-300 shadow-md hover:from-shopee-hover hover:to-shopee-orange hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 flex items-center justify-center gap-2 group/btn disabled:opacity-70 disabled:cursor-not-allowed"
+            className="flex-1 py-1.5 px-3 bg-shopee-orange text-white border-none rounded-md text-[0.8rem] font-semibold cursor-pointer transition-all duration-300 shadow-sm hover:bg-shopee-hover active:scale-95 flex items-center justify-center gap-1 group/btn disabled:opacity-70 disabled:cursor-not-allowed"
             aria-label={`Ver oferta de ${product.title}`}
           >
             {isRedirecting ? (
-              <>
-                <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                <span>Carregando...</span>
-              </>
+              <svg className="animate-spin h-3.5 w-3.5 text-white" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
             ) : (
-              <>
-                <span>Ver Oferta</span>
-                <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
-              </>
+              <span>Ver Oferta</span>
             )}
           </button>
 
@@ -174,34 +152,15 @@ export default function ProductCard({ product }: ProductCardProps) {
               e.stopPropagation();
               handleShare(e);
             }}
-            className="flex items-center justify-center w-12 min-w-[48px] bg-white border-2 border-shopee-border rounded-shopee-sm cursor-pointer transition-all duration-300 text-shopee-text-secondary hover:bg-shopee-bg hover:border-shopee-orange hover:text-shopee-orange hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+            className="flex items-center justify-center w-8 h-8 min-w-[32px] bg-transparent border border-shopee-border rounded-md cursor-pointer transition-all duration-200 text-shopee-text-secondary hover:bg-shopee-bg hover:text-shopee-orange active:scale-95"
             aria-label={`Compartilhar ${product.title}`}
           >
             {showCopied ? (
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             ) : (
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="transition-transform duration-200 group-hover:scale-110"
-              >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="18" cy="5" r="3"></circle>
                 <circle cx="6" cy="12" r="3"></circle>
                 <circle cx="18" cy="19" r="3"></circle>
@@ -212,7 +171,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </button>
         </div>
 
-        {showCopied && <span className="block text-center text-xs text-shopee-success mt-2 font-semibold animate-fadeInUp">Link copiado! ✓</span>}
+        {showCopied && <span className="absolute bottom-2 right-2 text-[0.65rem] text-shopee-success font-bold bg-white px-2 py-0.5 rounded shadow animate-fadeInUp">Copiado!</span>}
       </div>
     </article>
   );
