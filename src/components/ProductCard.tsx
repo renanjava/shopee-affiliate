@@ -2,6 +2,7 @@ import { Product } from "@/types/product";
 import Image from "next/image";
 import { useState } from "react";
 import { Skeleton } from "./ui/Skeleton";
+import { formatPrice } from "@/lib/utils";
 
 interface ProductCardProps {
   product: Product;
@@ -47,9 +48,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     const shareData = {
       title: product.title,
-      text: `Confira esta oferta: ${product.title} - R$ ${product.price.toFixed(
-        2
-      )}`,
+      text: `Confira esta oferta: ${product.title} - ${formatPrice(product.price)}`,
       url: product.affiliate_url,
     };
 
@@ -103,11 +102,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="flex flex-col gap-0.5 md:gap-1 mt-1">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-[1.1rem] md:text-xl font-bold text-shopee-orange tracking-tight">
-                R$ {product.price.toFixed(2)}
+                {formatPrice(product.price)}
               </span>
               {product.original_price > product.price && (
                 <span className="text-[0.7rem] text-shopee-text-light line-through font-normal tabular-nums">
-                  R$ {product.original_price.toFixed(2)}
+                  {formatPrice(product.original_price)}
                 </span>
               )}
               {product.discount_percentage > 0 && (
