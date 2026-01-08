@@ -61,18 +61,22 @@ export default function HomePage() {
 
   if (loading) {
     return (
-      <div className="container">
-        <div className="loading">Carregando ofertas...</div>
+      <div className="max-w-[1280px] mx-auto px-6">
+        <div className="text-center py-16 text-shopee-text-secondary text-lg flex flex-col items-center gap-4">
+          Carregando ofertas...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="container">
-      <section className="filters-section">
-        <div className="section-header">
-          <h2 className="section-title">Ofertas em destaque</h2>
-          <p className="section-subtitle">
+    <div className="max-w-[1280px] mx-auto px-6">
+      <section className="mt-8 mb-8">
+        <div className="mb-6">
+          <h2 className="text-3xl font-bold text-shopee-text-primary mb-1">
+            Ofertas em destaque
+          </h2>
+          <p className="text-[0.95rem] text-shopee-text-secondary font-normal">
             {sortedAndFilteredProducts.length} produto
             {sortedAndFilteredProducts.length !== 1 ? "s" : ""} com desconto
             especial
@@ -87,13 +91,13 @@ export default function HomePage() {
         />
       </section>
 
-      <section className="products-section">
+      <section>
         {sortedAndFilteredProducts.length === 0 ? (
-          <p className="no-products">
+          <p className="text-center py-16 text-shopee-text-secondary text-lg">
             Nenhum produto encontrado nesta categoria.
           </p>
         ) : (
-          <div className="products-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
             {sortedAndFilteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}

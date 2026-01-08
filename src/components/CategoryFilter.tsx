@@ -16,13 +16,13 @@ export default function CategoryFilter({
   onSortChange,
 }: CategoryFilterProps) {
   return (
-    <div className="mb-4">
-      <div className="category-filter flex flex-wrap gap-3 mb-3">
+    <div className="mb-6">
+      <div className="flex flex-wrap gap-3 mb-4">
         <button
-          className={`category-button px-4 py-2 rounded-full text-sm font-medium ${
+          className={`px-5 py-2 rounded-full text-[0.95rem] font-medium transition-all duration-200 whitespace-nowrap cursor-pointer hover:bg-[#e9ecef] hover:-translate-y-0.5 ${
             selectedCategory === ""
-              ? "bg-orange-500 text-white shadow"
-              : "bg-gray-100 text-gray-900"
+              ? "bg-shopee-orange text-white shadow-md"
+              : "bg-[#f1f3f5] text-shopee-text-primary"
           }`}
           onClick={() => onSelectCategory("")}
         >
@@ -31,10 +31,10 @@ export default function CategoryFilter({
         {categories.map((category) => (
           <button
             key={category}
-            className={`category-button px-4 py-2 rounded-full text-sm font-medium ${
+            className={`px-5 py-2 rounded-full text-[0.95rem] font-medium transition-all duration-200 whitespace-nowrap cursor-pointer hover:bg-[#e9ecef] hover:-translate-y-0.5 ${
               selectedCategory === category
-                ? "bg-orange-500 text-white shadow"
-                : "bg-gray-100 text-gray-900"
+                ? "bg-shopee-orange text-white shadow-md"
+                : "bg-[#f1f3f5] text-shopee-text-primary"
             }`}
             onClick={() => onSelectCategory(category)}
           >
@@ -43,12 +43,12 @@ export default function CategoryFilter({
         ))}
       </div>
 
-      <div className="sort-filter flex gap-3">
+      <div className="flex gap-3">
         <button
-          className={`sort-button px-3 py-2 rounded-full text-sm font-medium ${
+          className={`px-5 py-2 rounded-full text-[0.95rem] font-medium transition-all duration-200 whitespace-nowrap cursor-pointer border-2 shadow-sm ${
             sortBy === "discount"
-              ? "bg-orange-500 text-white"
-              : "bg-white border border-gray-200 text-gray-700"
+              ? "bg-shopee-orange border-shopee-orange text-white shadow-md"
+              : "bg-white border-shopee-border text-shopee-text-primary hover:border-shopee-orange hover:text-shopee-orange"
           }`}
           onClick={() => onSortChange("discount")}
         >

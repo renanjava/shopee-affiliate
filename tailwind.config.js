@@ -11,7 +11,10 @@ module.exports = {
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+        'shopee-sm': '8px',
+        'shopee-md': '12px',
+        'shopee-lg': '16px',
   		},
   		colors: {
   			background: 'hsl(var(--background))',
@@ -53,8 +56,35 @@ module.exports = {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
-  			}
-  		}
+  			},
+        shopee: {
+          orange: '#ff6b35',
+          hover: '#ff5722',
+          secondary: '#ff8c42',
+          text: {
+            primary: '#2d3436',
+            secondary: '#636e72',
+            light: '#b2bec3',
+          },
+          border: '#e8e8e8',
+          success: '#00b894',
+          bg: '#f8f9fa',
+        }
+  		},
+      boxShadow: {
+        'shopee-sm': '0 1px 3px rgba(0, 0, 0, 0.06)',
+        'shopee-md': '0 2px 8px rgba(0, 0, 0, 0.08)',
+        'shopee-lg': '0 4px 20px rgba(0, 0, 0, 0.12)',
+      },
+      keyframes: {
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        }
+      },
+      animation: {
+        fadeInUp: 'fadeInUp 0.3s ease-out',
+      }
   	}
   },
   plugins: [require("tailwindcss-animate")],
