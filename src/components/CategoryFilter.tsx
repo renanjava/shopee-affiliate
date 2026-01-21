@@ -38,28 +38,28 @@ export default function CategoryFilter({
   };
 
   return (
-    <div className="sticky top-0 z-30 bg-white shadow-sm border-b border-shopee-border -mx-4 md:-mx-6 px-4 md:px-6 py-2 mb-4">
-      <div className="max-w-[1280px] mx-auto flex items-center justify-between gap-3">
+    <div className="bg-white py-4 mb-2 border-b border-shopee-border">
+      <div className="flex items-center justify-between gap-3">
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded text-sm font-medium border transition-colors ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold border-2 transition-all active:scale-95 ${
               selectedCategory || isCategoryOpen
                 ? "border-shopee-orange text-shopee-orange bg-shopee-orange/5"
-                : "border-gray-200 text-gray-600 hover:border-gray-300"
+                : "border-shopee-bg text-shopee-text-secondary bg-shopee-bg hover:border-shopee-border"
             }`}
           >
-            <span>{selectedCategory || "Categorias"}</span>
+            <span>{selectedCategory || "Todas as Categorias"}</span>
             <svg
-              width="10"
-              height="6"
+              width="12"
+              height="8"
               viewBox="0 0 10 6"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.5"
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className={`transition-transform duration-200 ${isCategoryOpen ? "rotate-180" : ""}`}
+              className={`transition-transform duration-300 ${isCategoryOpen ? "rotate-180" : ""}`}
             >
               <polyline points="1 1 5 5 9 1" />
             </svg>

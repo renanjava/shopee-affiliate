@@ -123,7 +123,7 @@ export default function HomePage() {
             </div>
 
             {visibleCount < sortedAndFilteredProducts.length && (
-              <div className="flex justify-center mt-8 mb-12">
+              <div className="flex justify-center mt-6 mb-6">
                 <button
                   onClick={handleLoadMore}
                   className="px-8 py-3 bg-white text-shopee-orange border-2 border-shopee-orange font-bold rounded-full hover:bg-shopee-orange hover:text-white transition-all duration-300 shadow-shopee-sm hover:shadow-shopee-md active:scale-95"
