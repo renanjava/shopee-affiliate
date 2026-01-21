@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
+import WhatsAppBanner from "@/components/WhatsAppBanner";
 import { Product } from "@/types/product";
 
 export default function HomePage() {
@@ -95,6 +96,9 @@ export default function HomePage() {
             {sortedAndFilteredProducts.length !== 1 ? "s" : ""} com desconto
           </p>
         </div>
+        
+        <WhatsAppBanner />
+
         <CategoryFilter
           categories={categories}
           selectedCategory={selectedCategory}
