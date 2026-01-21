@@ -6,8 +6,8 @@ interface CategoryFilterProps {
   categories: string[];
   selectedCategory: string;
   onSelectCategory: (category: string) => void;
-  sortBy: "commission" | "discount";
-  onSortChange: (sort: "commission" | "discount") => void;
+  sortBy: "commission" | "discount" | "price_low" | "price_under_20";
+  onSortChange: (sort: "commission" | "discount" | "price_low" | "price_under_20") => void;
 }
 
 export default function CategoryFilter({
@@ -94,26 +94,46 @@ export default function CategoryFilter({
           )}
         </div>
 
-        <div className="flex bg-gray-100 p-1 rounded-md">
+        <div className="flex gap-2 flex-wrap">
           <button
             onClick={() => onSortChange("commission")}
-            className={`px-3 py-1 rounded text-xs font-medium transition-all ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border-2 ${
               sortBy === "commission"
-                ? "bg-white text-shopee-orange shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-shopee-orange border-shopee-orange text-white shadow-sm"
+                : "bg-white border-shopee-border text-shopee-text-secondary hover:border-shopee-orange hover:text-shopee-orange"
             }`}
           >
-            Tendência
+            🔥 Tendência
           </button>
           <button
             onClick={() => onSortChange("discount")}
-            className={`px-3 py-1 rounded text-xs font-medium transition-all ${
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border-2 ${
               sortBy === "discount"
-                ? "bg-white text-shopee-orange shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-shopee-orange border-shopee-orange text-white shadow-sm"
+                : "bg-white border-shopee-border text-shopee-text-secondary hover:border-shopee-orange hover:text-shopee-orange"
             }`}
           >
-            + Desconto
+            💰 + Desconto
+          </button>
+          <button
+            onClick={() => onSortChange("price_low")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border-2 ${
+              sortBy === "price_low"
+                ? "bg-shopee-orange border-shopee-orange text-white shadow-sm"
+                : "bg-white border-shopee-border text-shopee-text-secondary hover:border-shopee-orange hover:text-shopee-orange"
+            }`}
+          >
+            ⬇️ Menor Preço
+          </button>
+          <button
+            onClick={() => onSortChange("price_under_20")}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all border-2 ${
+              sortBy === "price_under_20"
+                ? "bg-shopee-orange border-shopee-orange text-white shadow-sm"
+                : "bg-white border-shopee-border text-shopee-text-secondary hover:border-shopee-orange hover:text-shopee-orange"
+            }`}
+          >
+            🏷️ Abaixo de R$20
           </button>
         </div>
       </div>
