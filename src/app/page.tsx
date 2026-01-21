@@ -12,6 +12,8 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortBy, setSortBy] = useState<"commission" | "discount">("commission");
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(15);
+  const itemsPerPage = 15;
 
   useEffect(() => {
     async function loadProducts() {
@@ -36,13 +38,12 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    console.debug(
-      "products count:",
-      products.length,
-      "selectedCategory:",
-      selectedCategory
-    );
-  }, [products, selectedCategory]);
+    setVisibleCount(itemsPerPage);
+  }, [selectedCategory, sortBy]);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + itemsPerPage);
+  };
 
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category === selectedCategory)
@@ -114,11 +115,24 @@ export default function HomePage() {
             Nenhum produto encontrado nesta categoria.
           </p>
         ) : (
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 mb-8">
-            {sortedAndFilteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 mb-8">
+              {sortedAndFilteredProducts.slice(0, visibleCount).map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            {visibleCount < sortedAndFilteredProducts.length && (
+              <div className="flex justify-center mt-8 mb-12">
+                <button
+                  onClick={handleLoadMore}
+                  className="px-8 py-3 bg-white text-shopee-orange border-2 border-shopee-orange font-bold rounded-full hover:bg-shopee-orange hover:text-white transition-all duration-300 shadow-shopee-sm hover:shadow-shopee-md active:scale-95"
+                >
+                  Carregar mais produtos
+                </button>
+              </div>
+            )}
+          </>
         )}
       </section>
     </div>
