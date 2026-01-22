@@ -116,12 +116,27 @@ export default function ProductCard({ product }: ProductCardProps) {
             }}
             disabled={isRedirecting}
             className="flex-1 py-1.5 px-3 bg-shopee-orange text-white border-none rounded-md text-[0.8rem] font-semibold cursor-pointer transition-all duration-300 shadow-sm hover:bg-shopee-hover active:scale-95 flex items-center justify-center gap-1 group/btn disabled:opacity-70 disabled:cursor-not-allowed h-8"
-            aria-label={`Ver oferta de ${product.title}`}
+            aria-label={`Ver oferta de ${product.productName}`}
           >
             {isRedirecting ? (
-              <svg className="animate-spin h-3.5 w-3.5 text-white" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              <svg
+                className="animate-spin h-3.5 w-3.5 text-white"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
               </svg>
             ) : (
               <span>Ver Oferta</span>
@@ -134,14 +149,32 @@ export default function ProductCard({ product }: ProductCardProps) {
               handleShare(e);
             }}
             className="flex items-center justify-center w-8 h-8 min-w-[32px] bg-transparent border border-shopee-border rounded-md cursor-pointer transition-all duration-200 text-shopee-text-secondary hover:bg-shopee-bg hover:text-shopee-orange active:scale-95 h-8"
-            aria-label={`Compartilhar ${product.tproductNam}`}
+            aria-label={`Compartilhar ${product.productName}`}
           >
             {showCopied ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             ) : (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <circle cx="18" cy="5" r="3"></circle>
                 <circle cx="6" cy="12" r="3"></circle>
                 <circle cx="18" cy="19" r="3"></circle>
@@ -152,7 +185,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           </button>
         </div>
 
-        {showCopied && <span className="absoluteproductNamtom-2 right-2 text-[0.65rem] text-shopee-success font-bold bg-white px-2 py-0.5 rounded shadow animate-fadeInUp">Copiado!</span>}
+        {showCopied && (
+          <span className="absolute bottom-2 right-2 text-[0.65rem] text-shopee-success font-bold bg-white px-2 py-0.5 rounded shadow animate-fadeInUp">
+            Copiado!
+          </span>
+        )}
       </div>
     </article>
   );

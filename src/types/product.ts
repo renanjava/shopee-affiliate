@@ -3,6 +3,7 @@ export interface Product {
   offerLink: string;
   imageUrl: string;
   price: number;
+  category?: string;
 }
 
 export interface ProductRaw {
@@ -10,4 +11,6 @@ export interface ProductRaw {
   offerLink: string;
   imageUrl: string;
   price: string;
+  category?: string;
 }
+

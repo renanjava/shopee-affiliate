@@ -3,16 +3,14 @@
 import { useState, useEffect } from "react";
 import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
-import WhatsAppBanner from "@/components/WhatsAppBanner";
+import InstagramBanner from "@/components/WhatsAppBanner";
 import Header from "@/components/Header";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Product } from "@/types/product";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortBy, setSortBy] = useState<"commission" | "discount" | "price_low" | "price_under_20">("commission");
+  const [sortBy, setSortBy] = useState<"commission" | "discount" | "price_low" | "price_under_20">("price_low");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +23,6 @@ export default function HomePage() {
         const data = await response.json();
 
         setProducts(data.products);
-        setCategories(data.categories);
       } catch (error) {
         console.error("Erro ao carregar produtos:", error);
       } finally {
@@ -53,37 +50,41 @@ export default function HomePage() {
     ? products.filter((p) => p.category === selectedCategory)
     : products;
 
+  const categories = Array.from(new Set(products.map((p) => p.category).filter(Boolean))) as string[];
+
   const searchedProducts = searchQuery
     ? filteredProducts.filter((p) =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase())
+        p.productName.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : filteredProducts;
 
   const sortedAndFilteredProducts = [...searchedProducts].sort((a, b) => {
-    if (sortBy === "commission") {
-      const commissionA = a.commission || 0;
-      const commissionB = b.commission || 0;
-      return commissionB - commissionA;
-    } else if (sortBy === "discount") {
-      return b.discount_percentage - a.discount_percentage;
-    } else if (sortBy === "price_low") {
+    if (sortBy === "price_low") {
       return a.price - b.price;
     } else if (sortBy === "price_under_20") {
-      const aUnder20 = a.price < 20 ? 0 : 1;
-      const bUnder20 = b.price < 20 ? 0 : 1;
-      if (aUnder20 !== bUnder20) return aUnder20 - bUnder20;
-      return a.price - b.price;
+      return a.price - b.price; // This will be filtered below if needed, but let's just sort by price for now
     }
+    // commission and discount are not implemented yet in the data, so no sort
     return 0;
   });
 
-  const totalPages = Math.ceil(sortedAndFilteredProducts.length / itemsPerPage);
+  // Final filter for "price_under_20"
+  const finalProducts = sortBy === "price_under_20" 
+    ? sortedAndFilteredProducts.filter(p => p.price <= 20)
+    : sortedAndFilteredProducts;
+
+
+  const totalPages = Math.ceil(finalProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentProducts = sortedAndFilteredProducts.slice(startIndex, startIndex + itemsPerPage);
+  const currentProducts = finalProducts.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (loading) {
@@ -101,7 +102,10 @@ export default function HomePage() {
               </div>
               <div className="flex flex-wrap gap-2 mb-4">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-8 w-20 bg-muted/50 animate-pulse rounded-full" />
+                  <div
+                    key={i}
+                    className="h-8 w-20 bg-muted/50 animate-pulse rounded-full"
+                  />
                 ))}
               </div>
             </section>
@@ -113,7 +117,6 @@ export default function HomePage() {
             </div>
           </div>
         </main>
-        <WhatsAppFloat />
       </>
     );
   }
@@ -129,13 +132,14 @@ export default function HomePage() {
                 Ofertas em destaque
               </h2>
               <p className="text-xs md:text-sm text-shopee-text-secondary font-normal">
-                {sortedAndFilteredProducts.length} produto
-                {sortedAndFilteredProducts.length !== 1 ? "s" : ""} com desconto
+                {finalProducts.length} produto
+                {finalProducts.length !== 1 ? "s" : ""} com desconto
                 {searchQuery && ` para "${searchQuery}"`}
               </p>
             </div>
-            
-            <WhatsAppBanner />
+
+            <InstagramBanner />
+
 
             <CategoryFilter
               categories={categories}
@@ -155,7 +159,7 @@ export default function HomePage() {
               <>
                 <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-3 xl:grid-cols-4 mb-8">
                   {currentProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard key={product.productName} product={product} />
                   ))}
                 </div>
 
@@ -166,8 +170,18 @@ export default function HomePage() {
                       disabled={currentPage === 1}
                       className="flex items-center justify-center w-10 h-10 rounded-xl border-2 border-shopee-border bg-white text-shopee-text-secondary disabled:opacity-30 disabled:cursor-not-allowed hover:border-shopee-orange hover:text-shopee-orange transition-all"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </button>
 
@@ -176,7 +190,8 @@ export default function HomePage() {
                       if (
                         pageNumber === 1 ||
                         pageNumber === totalPages ||
-                        (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                        (pageNumber >= currentPage - 1 &&
+                          pageNumber <= currentPage + 1)
                       ) {
                         return (
                           <button
@@ -195,7 +210,14 @@ export default function HomePage() {
                         pageNumber === currentPage - 2 ||
                         pageNumber === currentPage + 2
                       ) {
-                        return <span key={pageNumber} className="text-shopee-text-light px-1">...</span>;
+                        return (
+                          <span
+                            key={pageNumber}
+                            className="text-shopee-text-light px-1"
+                          >
+                            ...
+                          </span>
+                        );
                       }
                       return null;
                     })}
@@ -205,8 +227,18 @@ export default function HomePage() {
                       disabled={currentPage === totalPages}
                       className="flex items-center justify-center w-10 h-10 rounded-xl border-2 border-shopee-border bg-white text-shopee-text-secondary disabled:opacity-30 disabled:cursor-not-allowed hover:border-shopee-orange hover:text-shopee-orange transition-all"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -216,7 +248,7 @@ export default function HomePage() {
           </section>
         </div>
       </main>
-      <WhatsAppFloat />
     </>
   );
 }
+
