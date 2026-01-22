@@ -10,11 +10,13 @@ import { Product } from "@/types/product";
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [sortBy, setSortBy] = useState<"commission" | "discount" | "price_low" | "price_under_20">("price_low");
+  const [sortBy, setSortBy] = useState<
+    "commission" | "discount" | "price_low" | "price_under_20"
+  >("price_low");
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const itemsPerPage = 15;
+  const itemsPerPage = 30;
 
   useEffect(() => {
     async function loadProducts() {
@@ -50,7 +52,9 @@ export default function HomePage() {
     ? products.filter((p) => p.category === selectedCategory)
     : products;
 
-  const categories = Array.from(new Set(products.map((p) => p.category).filter(Boolean))) as string[];
+  const categories = Array.from(
+    new Set(products.map((p) => p.category).filter(Boolean)),
+  ) as string[];
 
   const searchedProducts = searchQuery
     ? filteredProducts.filter((p) =>
@@ -69,10 +73,10 @@ export default function HomePage() {
   });
 
   // Final filter for "price_under_20"
-  const finalProducts = sortBy === "price_under_20" 
-    ? sortedAndFilteredProducts.filter(p => p.price <= 20)
-    : sortedAndFilteredProducts;
-
+  const finalProducts =
+    sortBy === "price_under_20"
+      ? sortedAndFilteredProducts.filter((p) => p.price <= 20)
+      : sortedAndFilteredProducts;
 
   const totalPages = Math.ceil(finalProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -80,7 +84,6 @@ export default function HomePage() {
     startIndex,
     startIndex + itemsPerPage,
   );
-
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -140,7 +143,6 @@ export default function HomePage() {
 
             <InstagramBanner />
 
-
             <CategoryFilter
               categories={categories}
               selectedCategory={selectedCategory}
@@ -153,7 +155,8 @@ export default function HomePage() {
           <section>
             {currentProducts.length === 0 ? (
               <p className="text-center py-12 text-shopee-text-secondary text-base">
-                Nenhum produto encontrado{searchQuery && ` para "${searchQuery}"`}.
+                Nenhum produto encontrado
+                {searchQuery && ` para "${searchQuery}"`}.
               </p>
             ) : (
               <>
@@ -251,4 +254,3 @@ export default function HomePage() {
     </>
   );
 }
-
