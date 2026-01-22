@@ -39,7 +39,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const handleClick = () => {
     setIsRedirecting(true);
-    window.open(product.affiliate_url, "_blank", "noopener,noreferrer");
+    window.open(product.offerLink, "_blank", "noopener,noreferrer");
     setTimeout(() => setIsRedirecting(false), 2000);
   };
 
@@ -47,9 +47,9 @@ export default function ProductCard({ product }: ProductCardProps) {
     e.stopPropagation();
 
     const shareData = {
-      title: product.title,
-      text: `Confira esta oferta: ${product.title} - ${formatPrice(product.price)}`,
-      url: product.affiliate_url,
+      title: product.productName,
+      text: `Confira esta oferta: ${product.productName} - ${formatPrice(product.price)}`,
+      url: product.offerLink,
     };
 
     if (navigator.share) {
@@ -60,7 +60,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       }
     } else {
       try {
-        await navigator.clipboard.writeText(product.affiliate_url);
+        await navigator.clipboard.writeText(product.offerLink);
         setShowCopied(true);
         setTimeout(() => setShowCopied(false), 2000);
       } catch (err) {
@@ -74,15 +74,15 @@ export default function ProductCard({ product }: ProductCardProps) {
       onClick={handleClick}
       className="bg-white rounded-shopee-md overflow-hidden shadow-shopee-sm transition-all duration-300 hover:shadow-shopee-lg hover:-translate-y-0.5 hover:border-transparent border border-shopee-border flex flex-row h-auto min-h-[130px] md:grid md:grid-cols-1 md:h-[340px] cursor-pointer group"
       role="button"
-      aria-label={`Abrir oferta de ${product.title}`}
+      aria-label={`Abrir oferta de ${product.productName}`}
     >
       <div className="relative min-w-[130px] w-[130px] md:w-full md:h-[180px] bg-white overflow-hidden flex items-center justify-center p-1 self-stretch border-r md:border-r-0 md:border-b border-shopee-border/50">
         {isImageLoading && (
           <Skeleton className="absolute inset-0 w-full h-full rounded-none z-10" />
         )}
         <Image
-          src={product.image_url}
-          alt={product.title}
+          src={product.imageUrl}
+          alt={product.productName}
           width={400}
           height={400}
           className={`w-full h-full object-contain transition-all duration-500 ease-in-out group-hover:scale-105 ${
@@ -96,7 +96,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="p-2.5 flex flex-col justify-between flex-1 min-w-0">
         <div className="flex flex-col gap-1">
           <h3 className="text-[0.85rem] font-medium text-shopee-text-primary leading-tight line-clamp-2 md:line-clamp-2">
-            {product.title}
+            {product.productName}
           </h3>
 
           <div className="flex flex-col gap-0.5 md:gap-1 mt-1">
@@ -104,24 +104,6 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="text-[1.1rem] md:text-xl font-bold text-shopee-orange tracking-tight">
                 {formatPrice(product.price)}
               </span>
-              {product.original_price > product.price && (
-                <span className="text-[0.7rem] text-shopee-text-light line-through font-normal tabular-nums">
-                  {formatPrice(product.original_price)}
-                </span>
-              )}
-              {product.discount_percentage > 0 && (
-                <span className="inline-flex items-center bg-shopee-orange/10 text-shopee-orange px-1.5 py-0.5 rounded text-[0.65rem] font-bold border border-shopee-orange/20">
-                  -{product.discount_percentage}%
-                </span>
-              )}
-            </div>
-            
-            <div className="flex items-center gap-1.5 row-start-1">
-              {product.sales && (
-                <span className="text-[0.7rem] text-shopee-text-secondary whitespace-nowrap">
-                  {product.sales} vendidos
-                </span>
-              )}
             </div>
           </div>
         </div>
@@ -152,7 +134,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               handleShare(e);
             }}
             className="flex items-center justify-center w-8 h-8 min-w-[32px] bg-transparent border border-shopee-border rounded-md cursor-pointer transition-all duration-200 text-shopee-text-secondary hover:bg-shopee-bg hover:text-shopee-orange active:scale-95 h-8"
-            aria-label={`Compartilhar ${product.title}`}
+            aria-label={`Compartilhar ${product.tproductNam}`}
           >
             {showCopied ? (
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -170,7 +152,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </button>
         </div>
 
-        {showCopied && <span className="absolute bottom-2 right-2 text-[0.65rem] text-shopee-success font-bold bg-white px-2 py-0.5 rounded shadow animate-fadeInUp">Copiado!</span>}
+        {showCopied && <span className="absoluteproductNamtom-2 right-2 text-[0.65rem] text-shopee-success font-bold bg-white px-2 py-0.5 rounded shadow animate-fadeInUp">Copiado!</span>}
       </div>
     </article>
   );

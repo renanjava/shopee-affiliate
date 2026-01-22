@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { fetchProducts, getCategories } from '@/lib/fetchProducts';
+import { fetchProducts } from '@/lib/fetchProducts';
 
 export const dynamic = 'force-dynamic';
 
@@ -8,14 +8,11 @@ export async function GET() {
     const products = await fetchProducts();
     
     if (products.length === 0) {
-      console.warn('Nenhum produto ativo encontrado');
+      console.warn('Nenhum produto encontrado');
     }
-    
-    const categories = getCategories(products);
 
     return NextResponse.json({
       products,
-      categories,
       lastUpdate: new Date().toISOString(),
     });
   } catch (error) {

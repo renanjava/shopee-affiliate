@@ -3,17 +3,10 @@ import { Product, ProductRaw } from '@/types/product';
 
 function parseProduct(raw: ProductRaw): Product {
   return {
-    id: raw.id,
-    title: raw.title,
+    productName: raw.productName,
+    offerLink: raw.offerLink,
+    imageUrl: raw.imageUrl,
     price: parseFloat(raw.price),
-    original_price: parseFloat(raw.original_price),
-    discount_percentage: parseFloat(raw.discount_percentage),
-    image_url: raw.image_url,
-    affiliate_url: raw.affiliate_url,
-    category: raw.category,
-    active: raw.active?.toLowerCase() === 'true',
-    sales: raw.sales || undefined,
-    commission: raw.commission ? parseFloat(raw.commission) : undefined,
   };
 }
 
@@ -50,21 +43,11 @@ export async function fetchProducts(): Promise<Product[]> {
 
     const products = parsed.data
       .map(parseProduct)
-      .filter((product) => product.active && product.id)
-      .sort((a, b) => {
-        const commissionA = a.commission || 0;
-        const commissionB = b.commission || 0;
-        return commissionB - commissionA;
-      });
+      .filter((product) => product.productName && product.offerLink);
 
     return products;
   } catch (error) {
     console.error('Erro ao buscar produtos:', error);
     return [];
   }
-}
-
-export function getCategories(products: Product[]): string[] {
-  const categories = new Set(products.map((p) => p.category));
-  return Array.from(categories).sort();
 }
