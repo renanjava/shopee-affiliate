@@ -14,3 +14,6 @@ export interface ProductRaw {
   category?: string;
 }
 
+export interface MetaData {
+  lastUpdated: string;
+}

@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
-import { fetchProducts } from "@/lib/fetchProducts";
+import { fetchProducts, fetchMetaData } from "@/lib/fetchProducts";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const products = await fetchProducts();
+    const [products, metaData] = await Promise.all([
+      fetchProducts(),
+      fetchMetaData(),
+    ]);
 
     if (products.length === 0) {
       console.warn("Nenhum produto encontrado");
@@ -13,7 +16,8 @@ export async function GET() {
 
     return NextResponse.json({
       products,
-      lastUpdate: new Date().toISOString(),
+      metaData,
+      lastUpdate: metaData?.lastUpdated || new Date().toISOString(),
     });
   } catch (error) {
     console.error("Erro na API de produtos:", error);

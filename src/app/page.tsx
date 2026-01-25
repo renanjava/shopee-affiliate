@@ -5,10 +5,11 @@ import ProductCard, { ProductCardSkeleton } from "@/components/ProductCard";
 import CategoryFilter from "@/components/CategoryFilter";
 import InstagramBanner from "@/components/WhatsAppBanner";
 import Header from "@/components/Header";
-import { Product } from "@/types/product";
+import { Product, MetaData } from "@/types/product";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [metaData, setMetaData] = useState<MetaData | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortBy, setSortBy] = useState<
     "commission" | "discount" | "price_low" | "price_under_20"
@@ -25,6 +26,7 @@ export default function HomePage() {
         const data = await response.json();
 
         setProducts(data.products);
+        setMetaData(data.metaData);
       } catch (error) {
         console.error("Erro ao carregar produtos:", error);
       } finally {
@@ -139,6 +141,14 @@ export default function HomePage() {
                 {finalProducts.length !== 1 ? "s" : ""} com desconto
                 {searchQuery && ` para "${searchQuery}"`}
               </p>
+              {metaData && (
+                <div className="flex flex-col gap-0.5 mt-2">
+                  <p className="text-[10px] md:text-[11px] text-shopee-text-light font-medium flex items-center gap-1">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                    Última atualização: {metaData.lastUpdated}
+                  </p>
+                </div>
+              )}
             </div>
 
             <InstagramBanner />
